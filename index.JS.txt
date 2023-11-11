@@ -1,0 +1,44 @@
+const squares = document.querySelectorAll('.square');
+const resetButton = document.getElementById('reset');
+let currentPlayer = 'X';
+let gameEnded = false;
+
+function checkForWinner() {
+  const winningCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+
+  for (let i = 0; i < winningCombos.length; i++) {
+    const [a, b, c] = winningCombos[i];
+    if (squares[a].classList.contains(currentPlayer) && squares[b].classList.contains(currentPlayer) && squares[c].classList.contains(currentPlayer)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function handleSquareClick(event) {
+  if (gameEnded) return;
+
+  const square = event.target;
+  if (square.classList.contains('X') || square.classList.contains('O')) return;
+
+  square.classList.add(currentPlayer);
+  square.innerHTML = currentPlayer;
+
+  if (checkForWinner()) {
+    alert(`${currentPlayer} wins!`);
+    gameEnded = true;
+    return;
+  }
+
+  if ([...squares].every(square => square.classList.contains('X') || square.classList.contains('O'))) {
+   
